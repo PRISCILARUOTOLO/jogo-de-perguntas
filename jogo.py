@@ -7,3 +7,4 @@ print(" Jogo das Palavras ")
 print("Qual é seu nome? ")
 nome = input("Digite seu nome: ")
 #jogo das perguntas 
+oii
