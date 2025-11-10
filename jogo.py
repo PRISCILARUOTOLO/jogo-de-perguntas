@@ -5,5 +5,5 @@ print("Bom diaaaaaaaaaaaaaa....")
 print(" Jogo das Palavras ")
 #Perguntas
 print("Qual é seu nome? ")
-nome = input(print("Digite seu nome: "))
+nome = input("Digite seu nome: ")
 #jogo das perguntas 
