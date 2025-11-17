@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Jogo em Python</title>
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+        }
+        #output {
+            white-space: pre-wrap;
+            background: #f0f0f0;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Jogo de Perguntas</h1>
+<button onclick="startGame()">Iniciar Jogo</button>
+
+<div id="output"></div>
+
+<py-script>
+from pyscript import Element
+
+def startGame():
+    out = Element("output")
+    out.clear()
+
+    def escrever(txt):
+        out.write(txt + "\n")
+
+    # --- Seu jogo aqui ----
+    escrever("JOGO DE PERGUNTAS")
+
+    nome = input("Qual é seu nome? ")
+    escrever(f"Oi {nome}!")
+
+    pontos = 0
+
+    matematico = input("Qual foi o matemático que desenvolveu a fórmula a² = b² + c² ? ")
+
+    if matematico.lower() in ["pitágoras", "pitagoras"]:
+        escrever(f"Parabéns {nome}, você acertou! 🤓")
+        pontos += 1
+    else:
+        escrever(f"Que pena {nome}, você errou. 🤔")
+
+    escrever(f"Pontuação final: {pontos}")
+    # --- Fim do jogo ----
+</py-script>
+
+<script>
+function startGame() {
+    pyscript.interpreter.globals.get('startGame')();
+}
+</script>
+
+</body>
+</html>
