@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Jogo em Python</title>
+    <title>Jogo de Perguntas</title>
     <script defer src="https://pyscript.net/latest/pyscript.js"></script>
 
     <style>
@@ -19,42 +19,76 @@
             margin-top: 20px;
             border-radius: 8px;
         }
+        #input-area {
+            margin-top: 20px;
+        }
     </style>
 </head>
 
 <body>
 
 <h1>Jogo de Perguntas</h1>
-<button onclick="startGame()">Iniciar Jogo</button>
+
+<button id="startBtn" onclick="startGame()">Iniciar Jogo</button>
 
 <div id="output"></div>
 
+<div id="input-area" style="display:none;">
+    <input id="userInput" type="text" placeholder="Digite sua resposta..." style="width:80%;">
+    <button onclick="send()">Enviar</button>
+</div>
+
 <py-script>
+
 from pyscript import Element
 
-#Colocar título e descrever o jogo.
-print("JOGO DE PERGUNTAS")
+output = Element("output")
+userInput = Element("userInput")
 
-print("O jogo será trabalhado na forma de utilizar dados externos, para desenvolver respostas e novas perguntas, utilizando a idéia de INPUT")
-#Pensar em um tema...
-nome = input("Qual é seu nome?")
-print("Oi" ,nome)
+fase = 0
+nome = ""
+pontos = 0
 
-pontos = 0;
+def write(text):
+    output.write(text + "\n")
 
-#pergunta1
-matemático = input("Qual foi o matemático que desenvolveu a seguinte fórmula, a² = b² + c²")
-if matemático == "Pitágoras" or matemático == "pitagoras":
-     print("Parabéns", nome,",você acertou.🤓")
-     pontos += 1
-else: 
-     print("Que pena", nome, "você errou 🤔")
-     
+def process_answer(answer):
+    global fase, nome, pontos
+
+    if fase == 1:
+        nome = answer
+        write(f"Oi {nome}!\n")
+        write("Pergunta 1:\nQual foi o matemático que desenvolveu a fórmula a² = b² + c²?")
+        fase = 2
+
+    elif fase == 2:
+        if answer.lower() == "pitágoras" or answer.lower() == "pitagoras":
+            write(f"Parabéns {nome}, você acertou! 🤓")
+            pontos += 1
+        else:
+            write(f"Que pena {nome}, você errou. 🤔")
+        write(f"\nFim do jogo! Você fez {pontos} ponto(s).")
+        Element("input-area").element.style.display = "none"
+
+def start():
+    global fase
+    output.clear()
+    write("JOGO DE PERGUNTAS\n")
+    write("Qual é seu nome?")
+    fase = 1
+
 </py-script>
 
 <script>
 function startGame() {
-    pyscript.interpreter.globals.get('startGame')();
+    pyscript.interpreter.globals.get('start')();
+    document.getElementById("input-area").style.display = "block";
+}
+
+function send() {
+    let txt = document.getElementById("userInput").value;
+    document.getElementById("userInput").value = "";
+    pyscript.interpreter.globals.get('process_answer')(txt);
 }
 </script>
 
